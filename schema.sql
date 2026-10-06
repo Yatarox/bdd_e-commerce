@@ -1,5 +1,3 @@
--- Création de la base si elle n'existe pas encore.
--- Cette partie doit être exécutée avec psql.
 \encoding UTF8
 
 SELECT 'CREATE DATABASE e_commerce WITH ENCODING = ''UTF8'' TEMPLATE = template0'
@@ -37,12 +35,6 @@ CREATE TABLE IF NOT EXISTS commande (
         CHECK (statut IN ('payée', 'expédiée', 'livrée', 'annulée'))
 );
 
-ALTER TABLE commande
-DROP CONSTRAINT IF EXISTS commande_status_check;
-
-ALTER TABLE commande
-ADD CONSTRAINT commande_status_check
-CHECK (statut IN ('payée', 'expédiée', 'livrée', 'annulée'));
 
 CREATE TABLE IF NOT EXISTS ligne_commande (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
