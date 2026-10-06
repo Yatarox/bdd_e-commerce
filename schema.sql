@@ -1,6 +1,6 @@
 
 CREATE DATABASE e_commerce;
-USE e_commerce;
+\c e_commerce;
 
 CREATE TABLE IF NOT EXISTS client (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS commande (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     client_id INT NOT NULL,
     date_commande DATE NOT NULL,
-    status VARCHAR(20) NOT NULL,
+    statut VARCHAR(20) NOT NULL,
     FOREIGN KEY (client_id) REFERENCES client(id),
     CONSTRAINT commande_status_check
-        CHECK (status IN ('pending', 'shipped', 'delivered', 'canceled'))
+        CHECK (statut IN ('payée', 'expédiée', 'livrée', 'annulée'))
 );
 
 CREATE TABLE IF NOT EXISTS ligne_commande (
