@@ -1,6 +1,13 @@
+-- Création de la base si elle n'existe pas encore.
+-- Cette partie doit être exécutée avec psql.
+\encoding UTF8
 
-CREATE DATABASE e_commerce;
-\c e_commerce;
+SELECT 'CREATE DATABASE e_commerce WITH ENCODING = ''UTF8'' TEMPLATE = template0'
+WHERE NOT EXISTS (
+    SELECT FROM pg_database WHERE datname = 'e_commerce'
+)\gexec
+
+\connect e_commerce
 
 CREATE TABLE IF NOT EXISTS client (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -24,10 +31,18 @@ CREATE TABLE IF NOT EXISTS commande (
     client_id INT NOT NULL,
     date_commande DATE NOT NULL,
     statut VARCHAR(20) NOT NULL,
-    FOREIGN KEY (client_id) REFERENCES client(id),
+    CONSTRAINT commande_client_fk
+        FOREIGN KEY (client_id) REFERENCES client(id),
     CONSTRAINT commande_status_check
         CHECK (statut IN ('payée', 'expédiée', 'livrée', 'annulée'))
 );
+
+ALTER TABLE commande
+DROP CONSTRAINT IF EXISTS commande_status_check;
+
+ALTER TABLE commande
+ADD CONSTRAINT commande_status_check
+CHECK (statut IN ('payée', 'expédiée', 'livrée', 'annulée'));
 
 CREATE TABLE IF NOT EXISTS ligne_commande (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -35,6 +50,8 @@ CREATE TABLE IF NOT EXISTS ligne_commande (
     produit_id INT NOT NULL,
     quantite INT NOT NULL,
     prix_unitaire NUMERIC(10, 2) NOT NULL,
-    FOREIGN KEY (commande_id) REFERENCES commande(id),
-    FOREIGN KEY (produit_id) REFERENCES produit(id)
+    CONSTRAINT ligne_commande_commande_fk
+        FOREIGN KEY (commande_id) REFERENCES commande(id),
+    CONSTRAINT ligne_commande_produit_fk
+        FOREIGN KEY (produit_id) REFERENCES produit(id)
 );
