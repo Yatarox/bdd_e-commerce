@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS commande (
     client_id INT NOT NULL,
     date_commande DATE NOT NULL,
     status VARCHAR(20) NOT NULL,
-    FOREIGN KEY (client_id) REFERENCES clients(id),
+    FOREIGN KEY (client_id) REFERENCES client(id),
     CONSTRAINT commande_status_check
         CHECK (status IN ('pending', 'shipped', 'delivered', 'canceled'))
 );
@@ -36,5 +36,5 @@ CREATE TABLE IF NOT EXISTS ligne_commande (
     quantite INT NOT NULL,
     prix_unitaire NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY (commande_id) REFERENCES commande(id),
-    FOREIGN KEY (produit_id) REFERENCES produits(id)
+    FOREIGN KEY (produit_id) REFERENCES produit(id)
 );
