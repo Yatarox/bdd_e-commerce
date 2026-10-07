@@ -20,7 +20,7 @@ statuts de commande.
 Depuis le dossier du projet, connecté à une instance PostgreSQL :
 
 ```powershell
-psql -U postgres -f .\schema.sql
+psql -U postgres -f .\create_schema.sql
 ```
 
 Le script crée la base `e_commerce`, s'y connecte et crée les quatre tables :
