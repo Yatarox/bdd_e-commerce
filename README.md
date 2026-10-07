@@ -147,4 +147,30 @@ Pour ouvrir une session SQL dans le conteneur :
 
 ```powershell
 docker exec -it e-commerce-postgres psql -U postgres -d e_commerce
+
 ```
+## Principales conclusions
+
+Sur le jeu de données fourni (100 clients, 65 produits, 500 commandes,
+1 547 lignes de commande) :
+
+- **Chiffre d'affaires** (commandes non annulées) : **617 494,76 €**
+- **Panier moyen** : **1 275,82 €**
+- **Taux d'annulation** : **3,20 %** (16 annulations sur 500 commandes),
+  avec deux pics isolés à 8,11 % en avril et octobre 2025.
+- **Catégorie la plus rentable** : **Sport**, avec **162 149,83 €** de
+  chiffre d'affaires, soit environ 26 % du total.
+- **Anomalies de qualité détectées** : **30 commandes** ont une date
+  antérieure à la date d'inscription de leur client, signalant un
+  problème de saisie à corriger.
+
+**Lecture business** : l'activité est régulière sur l'année, la clientèle
+est fidèle et le taux d'annulation reste faible. Les deux points de
+vigilance sont (1) les 30 incohérences de dates, à tracer côté saisie ou
+import, et (2) les pics d'annulation d'avril et octobre, à croiser avec
+les catégories Mode et Informatique (analyses 2 et 3 de `analysis.sql`)
+pour identifier la cause.
+
+L'ensemble des résultats détaillés (top produits, répartition par ville,
+évolution mensuelle, produits invendus, etc.) est produit directement par
+[`analysis.sql`](./analysis.sql).
