@@ -531,9 +531,20 @@ GROUP BY DATE_TRUNC('month', date_commande)
 ORDER BY DATE_TRUNC('month', date_commande);
 
 /*
-Lecture : un mois dont le taux dépasse nettement la moyenne annuelle
-(voir 15.B) mérite une investigation. Compléter ici avec les mois
-observés après exécution.
+Observations :
+- Taux d'annulation global : 3,20 % (16 annulations sur 500 commandes).
+- Deux pics à 8,11 % en avril et octobre 2025, nettement au-dessus
+  de la moyenne annuelle.
+- Quatre mois sans aucune annulation : février, mars, mai, août.
+- Aucune tendance à la dégradation : le taux est irrégulier, pas
+  croissant. Le volume de commandes n'est pas corrélé au taux
+  (mai = 54 commandes, 0 annulation).
+
+Interprétation :
+Les pics d'avril et octobre méritent une investigation ciblée :
+rupture de stock sur un produit phare, problème logistique ponctuel,
+ou campagne marketing mal ciblée sur ces périodes. À croiser avec
+l'analyse par catégorie (Analyse 3) pour identifier la source.
 */
 
 
